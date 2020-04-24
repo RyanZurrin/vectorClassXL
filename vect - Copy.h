@@ -7,10 +7,15 @@
 #define VECT_H
 #include <iostream>
 #include <iomanip>
-#include <cassert>
+#include <cctype>
+#include <assert.h>
+#include <cstdlib>
+#include <stdio.h>
 #include <cmath>
 #include <complex>
-#include <eigen3/Eigen/Core>
+#include <vector>
+#include <Eigen/dense>
+#include "exceptionHandler.h"
 
 using namespace std;
 typedef long double ld;
@@ -21,6 +26,14 @@ const ld RADIAN = PI/180;
 
 
 
+struct PolarCurve
+{   
+   ld theta = 1.0;
+   ld  r = 0;
+   ld  x = r*cos(theta);
+   ld  y = r*sin(theta);  
+};
+
 class Vector 
 {
 	static int object_counter;
@@ -28,21 +41,22 @@ class Vector
    friend class Vector3D;  
 			  
    protected:
-      ld x, y, magnitude_, angle,
+      ld x, y, magnitude, angle,
          arcLength, revolutionAngle_inDegrees;
-      char mode_;  //sets mode to Polar w/ 'p' or Rectangular w/ 'r'           
+      char mode;  //sets mode to Polar w/ 'p' or Rectangular w/ 'r'           
       
       //void    calculate_parametric_equation();
       void 	  validate_setMode();
-      void    normalize_magnitude();
+      void    validate_magnitude();
       void    adjust_angle();
       void    calculate_rectangular();
       void    calculate_polar();
       void    calculate_arcLength();
-      //void    calculate_derivative();
+      //void    calculate_derivitive();
 
-  // private:
-  //    Vector calculate_parallel_vector2d( Vector&, Vector&);
+   private:
+      PolarCurve Curve; //structure for storing data on a polar curve
+      Vector calculate_parallel_vector2d(const Vector, const Vector);
 
    public:			
 		Vector(); //default constructor
@@ -52,29 +66,29 @@ class Vector
       virtual void showAllData()const; //virtual so any derived classes must redefine
       virtual void showVector()const;    
       virtual void showRectCord()const;
-      virtual void showPolarCord()const;
+      void showPolarCord()const;
       virtual void showRevolutionAngle()const;
-      //virtual void showPolarCurve()const;
+      virtual void showPolarCurve()const;
       //virtual void showParametricEquation()const;
       
-      ld return_x(char v = 'r')const;
-      ld return_y(char v = 'r')const;
-      ld return_mag(char v = 'r')const;
-      ld return_angle(char v = 'r')const;
-      ld return_arcLength(char v = 'r')const;
-      static int return_objectCount(){return object_counter;}
+      ld returnX(char v = 'r')const;
+      ld returnY(char v = 'r')const;      
+      ld returnMag(char v = 'r')const;
+      ld returnAngle(char v = 'r')const;
+      ld returnArcLength(char v = 'r')const;
+      int returnObjectCount(){return object_counter;}
 			
-      char return_mode(char v = 'r')const;
+      char returnMode(char v = 'r')const;
       
-      void set_coordinates(ld, ld, char _mode = 'r');
-      void set_rectCord(ld, ld);
-      void set_polarCord(ld, ld);     
-      void set_x(ld);
-      void set_y(ld);
-      void set_mag(ld);
-      void set_angle(ld);
-      void set_mode(char); 
-      //void setPolarCurve();
+      void setCoordinates(ld, ld, char _mode = 'r');
+      void setRectCord(ld, ld);
+      void setPolarCord(ld, ld);     
+      void setX(ld);
+      void setY(ld);
+      void setMag(ld);
+      void setAngle(ld);
+      void setMode(char); 
+      void setPolarCurve();
       
       //virtual void setParametricPoints();      
       
@@ -84,7 +98,7 @@ class Vector
       
       
       virtual Vector operator+(const Vector &)const;
-      Vector operator+(ld number)const;      
+      Vector operator+(const ld number)const;      
       Vector &operator+=(const Vector &);
 
       Vector operator+()const;        
@@ -92,21 +106,18 @@ class Vector
       Vector operator++(int);
 
       Vector operator-(const Vector &);
-      Vector operator-(ld number)const;
+      Vector operator-(const ld number)const;
       Vector operator-()const;      
       Vector operator--();
       Vector operator--(int);
 
       //virtual Vector operator/(ld value);
-      virtual Vector operator/(ld);
-      virtual Vector operator/=(ld);
+      Vector operator/(ld);
+      Vector operator/=(ld);
       Vector &operator=(const Vector &);
       Vector &operator=(const Vector *);
-      Vector &operator=(Vector&& right)noexcept;
-      Vector(Vector&& temp)noexcept;
-	  
       
-      virtual Vector operator*(ld)const;
+      virtual Vector operator*(const ld)const;
       
       friend Vector operator*(ld s, Vector& v);
       friend Vector operator*(Vector& v, Vector& s);
