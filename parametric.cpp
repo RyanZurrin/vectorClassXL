@@ -46,7 +46,7 @@ void printParametricAndVectorForm(int point, struct myVector mv, struct myVector
         printf("<x, y, z> = <%d, %d, %d> + t <%d, %d, %d>\n",  mv.x, mv.y, mv.z, parallelVector.x, parallelVector.y, parallelVector.z);
         printf("\n\n");
 }
- /*
+ 
 int main(){
     int choice;
     struct myVector parallelVector;
@@ -90,4 +90,4 @@ int main(){
  
     return 0;
   }
-  */
+  

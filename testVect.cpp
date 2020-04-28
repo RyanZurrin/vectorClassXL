@@ -14,8 +14,8 @@ using namespace std;
 
 int main()																																
 {	
-	ld x = 15;	
-	ld y = 127;//(PI)/4*DEGREE;
+	ld x = 2;	
+	ld y = .5*DEGREE;//(PI)/4*DEGREE;
 	
 	cout << x << endl;
 	cout << y << endl;
@@ -27,26 +27,43 @@ int main()
 	Vector v2 = -v;
 	cout << "inverse vector: " << endl;
 	v2.showAllData();	
-	
+	Vector va = v2/(2*PI)/3;
+	va.showAllData();
 	Vector v3(2,3);
-	//v3.showAllData();
+	v3.showAllData();
 	
 	Vector3D a=Vector3D(21,5,7);
 	a.showAllData();	
-  Vector3D b=Vector3D(3,7,10);
-  b.showAllData();
+   Vector3D b=Vector3D(3,7,10);
+   b.showAllData();
 	Vector3D c=a+v;
 	cout << " here " << endl;
 	c.showAllData();	
-	c.setMode('p');
-	c = c * PI/4;
+	c.set_mode('p');
+	c = c / 2;
 	c.showAllData();
+	complex<double> cx(3.0, 4.0);
+	cout << cx << endl;	
+	complex<double> cx2(polar(5.0, .75));
+	cout << cx * cx2 << endl;
+	Vector test = v2/sqrt(2*PI);
+	test.showAllData(); 
+	
     //provide any operation.
 	//v3.setPolarCurve();
 	//v3.showPolarCurve();
+	/*
+	Vector3D *ptrVariable = new Vector3D(3,4,5);
+	
+	cout << "\nptrV: " << " ";
+	ptrVariable->showAllData();
+	delete [] ptrVariable;
+	ptrVariable = NULL;
+	
 	
 	return 0;
 }
+*/
 /*______________________________________________________________________________
 	  All my unit tests for this class and module are below this line
 	______________________________________________________________________________
